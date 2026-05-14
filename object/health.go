@@ -29,6 +29,9 @@ func GetHealthStatus() *HealthStatus {
 	return status
 }
 
+// checkDatabaseHealth verifies the database connection is alive by running a
+// lightweight query. Using a raw "SELECT 1" keeps the probe DB-agnostic and
+// avoids touching any application tables.
 func checkDatabaseHealth() error {
 	o := orm.NewOrm()
 	_, err := o.Raw("SELECT 1").Exec()
